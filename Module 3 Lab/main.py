@@ -1,5 +1,4 @@
 # M03 Lab - Case Study: Lists, functions, and classes
-# created on 11/9/2023 by honkyrot
 
 class Vehicle:
     """superclass representing any vehicle"""
