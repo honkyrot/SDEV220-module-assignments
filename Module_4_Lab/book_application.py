@@ -2,9 +2,9 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
 
-# Flask app and database setup
+# flask app and database setup
 app = Flask(__name__)
-# Ensure the SQLite file is created inside the Module_4_Lab folder
+# ensure the SQLite file is created inside the Module_4_Lab folder
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "books.db")
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
@@ -12,7 +12,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
-# Database model
+# database model
 class Book(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	book_name = db.Column(db.String(120), nullable=False)
@@ -33,7 +33,7 @@ def index():
 	return jsonify({"message": "Book API is running"})
 
 
-# Create
+# create
 @app.route("/books", methods=["POST"])
 def create_book():
 	data = request.get_json(silent=True) or {}
@@ -52,21 +52,21 @@ def create_book():
 	return jsonify(book.to_dict()), 201
 
 
-# Read all
+# read all
 @app.route("/books", methods=["GET"])
 def get_books():
 	books = Book.query.all()
 	return jsonify({"books": [b.to_dict() for b in books]})
 
 
-# Read one
+# read one
 @app.route("/books/<int:id>", methods=["GET"])
 def get_book(id: int):
 	book = Book.query.get_or_404(id)
 	return jsonify(book.to_dict())
 
 
-# Update
+# update
 @app.route("/books/<int:id>", methods=["PUT", "PATCH"])
 def update_book(id: int):
 	book = Book.query.get_or_404(id)
@@ -81,7 +81,7 @@ def update_book(id: int):
 	return jsonify(book.to_dict())
 
 
-# Delete
+# delete
 @app.route("/books/<int:id>", methods=["DELETE"])
 def delete_book(id: int):
 	book = Book.query.get(id)
@@ -92,7 +92,7 @@ def delete_book(id: int):
 	return jsonify({"message": "Book deleted"})
 
 
-# Convenience CLI to create tables when run directly
+# convenience CLI to create tables when run directly
 if __name__ == "__main__":
 	with app.app_context():
 		db.create_all()
